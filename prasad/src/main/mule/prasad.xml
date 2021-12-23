@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="e0befaed-11e2-4523-87a9-3b6a86198c42" >
+		<http:listener-connection host="localhost" port="5656" >
+		</http:listener-connection>
+	</http:listener-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="afb0e3c7-4e6d-4ed5-8447-c902d829a743" />
+	<flow name="prasadFlow" doc:id="3653f41c-3d2b-4916-9a14-860af28b3607" >
+		<file:listener doc:name="On New or Updated File" doc:id="afce5104-527d-4366-8cf6-30f1be55e5c4" directory="C:\Users\PRASAD CHITIKINA\Documents\New folder" moveToDirectory="C:\Users\PRASAD CHITIKINA\Documents\New folder (2)" renameTo="123655.txt" autoDelete="true">
+			<scheduling-strategy >
+				<fixed-frequency frequency="1" timeUnit="MINUTES" />
+			</scheduling-strategy>
+		</file:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="64267d9e-5a1d-4a73-bcf0-fc513fecfe74" message="#[payload]"/>
+	</flow>
+</mule>

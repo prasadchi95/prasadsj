@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:email="http://www.mulesoft.org/schema/mule/email"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="6f62ee62-a9cb-4d03-8eca-daa7b8f7cbc2" >
+		<http:listener-connection host="localhost" port="5656" />
+	</http:listener-config>
+	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="21a7b4fe-a131-4ce3-ac4e-be0bd7b1c835" >
+		<email:smtp-connection host="smtp.gmail.com" port="587" user="prasad.jp6666@gmail.com" password="Suryarao@ch88" >
+			<email:properties >
+				<email:property key="mail.smtp.starttls.enable" value="true" />
+			</email:properties>
+		</email:smtp-connection>
+	</email:smtp-config>
+	<flow name="suryasmtpFlow" doc:id="b1c8cd2e-adb1-4cd5-af5d-0e117974b4b7" >
+		<http:listener doc:name="Listener" doc:id="307a019b-f4b0-4eab-aa7b-fb5f6cd3c7e9" config-ref="HTTP_Listener_config" path="/email"/>
+		<file:read doc:name="Read" doc:id="422517c4-2903-4114-9ae7-571d8d943490" path="C:\Users\PRASAD CHITIKINA\Documents\Scanned Documents\Image (3).jpg"/>
+		<logger level="INFO" doc:name="Logger" doc:id="611dc0bd-18f1-42e7-b06f-d1babb6bffc1" message="#[payload]" />
+		<email:send doc:name="Send" doc:id="e9227c07-2e20-4bc3-aeb9-0294a92da749" config-ref="Email_SMTP" subject="mail from SMTP serve">
+			<email:to-addresses >
+				<email:to-address value="prasadchitikina95@gmail.com" />
+			</email:to-addresses>
+			<email:cc-addresses >
+				<email:cc-address value="prasad.jp66@gmail.com" />
+			</email:cc-addresses>
+			<email:body >
+				<email:content ><![CDATA[hey.................................!]]></email:content>
+			</email:body>
+			<email:attachments ><![CDATA[#[{
+	"attachments.jpg": payload
+}]]]></email:attachments>
+		</email:send>
+		<logger level="INFO" doc:name="Logger" doc:id="512779c8-5e7b-4940-abc3-396428544f5a" message="#[payload]"/>
+	</flow>
+</mule>

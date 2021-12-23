@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
+	<vm:config name="VM_Config" doc:name="VM Config" doc:id="c5c91403-07c3-4635-9008-9b3d79ab56ad" >
+		<vm:queues >
+			<vm:queue queueName="simpleque" />
+		</vm:queues>
+	</vm:config>
+	<flow name="orderFlow" doc:id="d0e10038-7913-4036-b077-3ec9af07f9cb" >
+		<http:listener doc:name="Listener" doc:id="745c7850-0797-425b-bf74-25d2c2b8ad46" config-ref="HTTP_Listener_config" path="/vm"/>
+		<vm:publish queueName="simpleque" doc:name="Publish" doc:id="ee6743b3-f99b-4de9-a59b-4438cc7ec58e" config-ref="VM_Config" timeout="2" timeoutUnit="MINUTES"/>
+		<logger level="INFO" doc:name="Logger" doc:id="2547b57c-4027-44ba-8958-a3c6a248da77" message="#[payload]"/>
+	</flow>
+</mule>
